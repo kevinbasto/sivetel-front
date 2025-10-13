@@ -3,8 +3,7 @@ export interface Person {
     name: string;
     fatherLastname: string;
     motherLastname: string;
-    code: string;
-    dob: string;
+    dob: Date;
     gender: 'M' | 'F';
     address: string;
     houseNumber: string;
@@ -12,6 +11,6 @@ export interface Person {
     neighborhood: string;
     city: string;
     state: string;
-    createdAt: string;
-    updatedAt: string;    
+    createdAt: Date;
+    updatedAt: Date;
 }
