@@ -1,0 +1,17 @@
+.spinner-container{
+    width: 100%;
+    display: grid;
+    place-content: center;
+}
+
+.actions{
+    display: flex;
+    gap: 1rem;
+}
+
+.rows{
+    cursor: pointer;
+    &:hover{
+        filter: brightness(.9);
+    }
+}
