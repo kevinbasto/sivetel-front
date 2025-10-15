@@ -1,17 +1,29 @@
-.spinner-container{
+.spinner-container {
     width: 100%;
     display: grid;
     place-content: center;
 }
 
-.actions{
+.actions {
     display: flex;
     gap: 1rem;
+    padding: .5rem;
 }
 
-.rows{
+.rows {
     cursor: pointer;
-    &:hover{
-        filter: brightness(.9);
+
+    &:hover {
+        background: hsl(0, 0%, 90%);
     }
+
+    &.selected-row {
+        background: hsl(0, 0%, 80%);
+    }
+
+    &.selected-row:hover {
+        background: hsl(0, 0%, 80%);
+        /* mantiene el mismo color al hacer hover */
+    }
+
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from './users.service';
-import { User } from '../../core/interfaces/user';
+import { User } from '../../interfaces/user';
 
 import { MatTableModule } from "@angular/material/table";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
@@ -8,6 +8,10 @@ import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatButtonModule } from '@angular/material/button'; 
 import { MatIconModule } from "@angular/material/icon";
+import { MatDividerModule } from "@angular/material/divider";
+import { NgClass } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+
 
 
 @Component({
@@ -18,7 +22,10 @@ import { MatIconModule } from "@angular/material/icon";
     MatCardModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule,
+    NgClass,
+    RouterModule
 ],
   templateUrl: './users.html',
   styleUrl: './users.scss'
@@ -31,7 +38,8 @@ export class Users implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +53,14 @@ export class Users implements OnInit {
   }
 
   selectUser(user: User) {
-    console.log(user);
+    this.selectedUser = user;
+  }
+
+  createUser() {
+    this.router.navigate(['users/create-user'])
+  }
+
+  editUser() {
+    this.router.navigate([`users/${this.selectedUser?.id}`]);
   }
 }

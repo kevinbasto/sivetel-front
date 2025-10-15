@@ -1,0 +1,67 @@
+<div class="create-user-container">
+  <h2>Crear Usuario</h2>
+
+  <form [formGroup]="userForm" (ngSubmit)="submit()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" placeholder="Ingrese el username" />
+      <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+        El username es obligatorio
+      </mat-error>
+      <mat-error *ngIf="userForm.get('username')?.hasError('minlength')">
+        Mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Ingrese el nombre" />
+      <mat-error *ngIf="userForm.get('name')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Contraseña</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Ingrese la contraseña"
+      />
+      <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+        La contraseña es obligatoria
+      </mat-error>
+      <mat-error *ngIf="userForm.get('password')?.hasError('minlength')">
+        Mínimo 6 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="isAdmin">Administrador</mat-checkbox>
+
+    <div class="actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="isSubmitting || userForm.invalid"
+        class="submit-button"
+      >
+        <mat-progress-spinner
+          *ngIf="isSubmitting"
+          mode="indeterminate"
+          diameter="20"
+          color="accent"
+          class="button-spinner"
+        >
+        </mat-progress-spinner>
+
+        <span *ngIf="!isSubmitting">Crear Usuario</span>
+        <span *ngIf="isSubmitting">Creando...</span>
+      </button>
+      <button mat-stroked-button type="button" (click)="userForm.reset({ isAdmin: false })">
+        Limpiar
+      </button>
+    </div>
+  </form>
+</div>
