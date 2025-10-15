@@ -5,6 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { modulesRouting } from '../../../environments/modules-routing';
 
 @Component({
   selector: 'app-client-layout',
@@ -22,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class ClientLayout {
   opened = true;
+  routes = modulesRouting;
 
   toggleSidenav() {
     this.opened = !this.opened;

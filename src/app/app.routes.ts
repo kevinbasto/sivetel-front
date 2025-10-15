@@ -4,6 +4,7 @@ import { CreateUser } from './pages/create-user/create-user';
 import { EditUser } from './pages/edit-user/edit-user';
 import { Login } from './pages/login/login';
 import { ClientLayout } from './layouts/client-layout/client-layout';
+import { Recharges } from './pages/recharges/recharges';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,10 @@ export const routes: Routes = [
                 path: 'users/:id',
                 component: EditUser
             },
+            {
+                path: 'recharges',
+                component: Recharges
+            }
         ]
     }
 ];
