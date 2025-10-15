@@ -7,6 +7,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,8 @@ import { NgIf } from '@angular/common';
     MatProgressSpinnerModule,
     MatCardModule,
     MatSnackBarModule,
-    NgIf
+    NgIf,
+    RouterModule
   ],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
@@ -28,7 +31,12 @@ export class Login {
   loginForm: FormGroup;
   isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(
+    private fb: FormBuilder, 
+    private snackBar: MatSnackBar,
+    private auth: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -38,25 +46,30 @@ export class Login {
   get username() { return this.loginForm.get('username'); }
   get password() { return this.loginForm.get('password'); }
 
-  submit() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    this.isSubmitting = true;
-
-    // Simulación de login (reemplazar con servicio real)
-    setTimeout(() => {
-      const { username, password } = this.loginForm.value;
-
-      if (username === 'admin' && password === '123456') {
-        this.snackBar.open('Login exitoso', 'Cerrar', { duration: 3000 });
-      } else {
-        this.snackBar.open('Usuario o contraseña incorrecta', 'Cerrar', { duration: 3000 });
-      }
-
-      this.isSubmitting = false;
-    }, 1500);
+  async submit() {
+  if (this.loginForm.invalid) {
+    this.loginForm.markAllAsTouched();
+    return;
   }
+
+  this.isSubmitting = true;
+
+  try {
+    // Llamada al servicio Auth
+    const res = await this.auth.login(this.loginForm.value);
+    
+    // Login exitoso
+    this.snackBar.open('Login exitoso', 'Cerrar', { duration: 3000 });
+
+    // Redirigir al panel de usuarios
+    this.router.navigate(['/users']);
+
+  } catch (err: any) {
+    console.error(err);
+    // Mostrar error al usuario
+    this.snackBar.open(err?.error?.message || 'Usuario o contraseña incorrecta', 'Cerrar', { duration: 3000 });
+  } finally {
+    this.isSubmitting = false;
+  }
+}
 }
