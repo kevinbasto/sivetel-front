@@ -1,0 +1,27 @@
+<mat-sidenav-container class="sidenav-container">
+
+  <!-- Sidenav lateral -->
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/users" routerLinkActive="active-link">Usuarios</a>
+      <a mat-list-item routerLink="/profile" routerLinkActive="active-link">Perfil</a>
+      <a mat-list-item routerLink="/settings" routerLinkActive="active-link">Configuración</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Contenido principal -->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="top-toolbar">
+      <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Mi App</span>
+    </mat-toolbar>
+
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
