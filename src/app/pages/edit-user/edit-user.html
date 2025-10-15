@@ -1,1 +1,41 @@
-<p>edit-user works!</p>
+<div class="edit-user-container" *ngIf="!isLoading; else loading">
+  <h2>Editar Usuario</h2>
+
+  <form [formGroup]="userForm" (ngSubmit)="submit()">
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Ingrese el nombre">
+      <mat-error *ngIf="name?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Contraseña (opcional)</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Nueva contraseña">
+      <mat-error *ngIf="password?.hasError('minlength')">
+        Mínimo 6 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="isAdmin">Administrador</mat-checkbox>
+    <mat-checkbox formControlName="inactive">Inactivo</mat-checkbox>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || userForm.invalid">
+        <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+        <span *ngIf="!isSubmitting">Actualizar Usuario</span>
+      </button>
+      <button mat-stroked-button type="button" (click)="loadUser()">
+        Revertir cambios
+      </button>
+    </div>
+  </form>
+</div>
+
+<ng-template #loading>
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

@@ -1,0 +1,29 @@
+.edit-user-container {
+  padding:1rem;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button mat-spinner {
+      margin-right: 8px;
+    }
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}

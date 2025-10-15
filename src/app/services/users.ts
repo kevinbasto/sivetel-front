@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { User, CreateUserDto, UpdateUserDto } from '../interfaces/user';
 import { environment } from '../../environments/environment';
 
@@ -18,8 +18,8 @@ export class UsersService {
   }
 
   // Obtener todos los usuarios activos
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}`);
+  getUsers(): Promise<User[]> {
+    return lastValueFrom(this.http.get<User[]>(`${this.apiUrl}`));
   }
 
   // Obtener un usuario por ID
@@ -29,7 +29,7 @@ export class UsersService {
 
   // Actualizar un usuario
   updateUser(id: number, data: UpdateUserDto): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, data);
+    return this.http.patch<User>(`${this.apiUrl}/${id}`, data);
   }
 
   // Desactivar (soft delete) un usuario
