@@ -1,0 +1,28 @@
+<div class="login-container">
+  <mat-card>
+    <img src="assets/banner.png" alt="" class="banner">
+    <h2>Iniciar Sesión</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="username" placeholder="Ingresa tu usuario">
+        <mat-error *ngIf="username?.hasError('required')">El usuario es obligatorio</mat-error>
+        <mat-error *ngIf="username?.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Ingresa tu contraseña">
+        <mat-error *ngIf="password?.hasError('required')">La contraseña es obligatoria</mat-error>
+        <mat-error *ngIf="password?.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || loginForm.invalid">
+        <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+        <span *ngIf="!isSubmitting">Ingresar</span>
+      </button>
+    </form>
+  </mat-card>
+</div>
