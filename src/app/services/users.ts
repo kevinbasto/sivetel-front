@@ -18,8 +18,8 @@ export class UsersService {
   }
 
   // Obtener todos los usuarios activos
-  getUsers(): Promise<User[]> {
-    return lastValueFrom(this.http.get<User[]>(`${this.apiUrl}`));
+  getUsers(status: any): Promise<User[]> {
+    return lastValueFrom(this.http.get<User[]>(`${this.apiUrl}`, { params: { status } } ));
   }
 
   // Obtener un usuario por ID
@@ -34,6 +34,6 @@ export class UsersService {
 
   // Desactivar (soft delete) un usuario
   deactivateUser(id: number): Observable<{ message: string }> {
-    return this.http.patch<{ message: string }>(`${this.apiUrl}/${id}`, { inactive: true });
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 }
