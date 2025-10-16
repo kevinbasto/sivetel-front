@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { RechargesService, Product } from '../../services/recharges';
+import { ProductsService } from '../../services/products';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, CurrencyPipe } from '@angular/common';
+import { NgIf, NgFor, CurrencyPipe } from '@angular/common';
+import { Pin } from '../../interfaces/pin';
 import { MatInputModule } from '@angular/material/input';
-import { ProductsService } from '../../services/products';
 
 @Component({
-  selector: 'app-recharges',
+  selector: 'app-pins',
   standalone: true,
   imports: [
     MatTableModule,
@@ -19,40 +19,38 @@ import { ProductsService } from '../../services/products';
     ReactiveFormsModule,
     NgIf,
     CurrencyPipe,
-    MatInputModule,
-    ReactiveFormsModule
+    MatInputModule
   ],
-  templateUrl: './recharges.html',
-  styleUrls: ['./recharges.scss']
+  templateUrl: './pins.html',
+  styleUrls: ['./pins.scss']
 })
-export class Recharges implements OnInit {
+export class Pins implements OnInit {
 
-  products: Product[] = [];
-  filteredProducts: Product[] = [];
+  pins: Pin[] = [];
+  filteredPins: Pin[] = [];
   displayedColumns: string[] = ['name', 'code', 'description', 'amount'];
   loading: boolean = true;
 
   filterControl = new FormControl('');
 
-  constructor(
-    private rechargesService: ProductsService
-  ) {}
+  constructor(private productsService: ProductsService) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.loadPins();
 
+    // Filtro local con debounce
     this.filterControl.valueChanges
       .pipe(debounceTime(500))
       .subscribe(value => this.applyFilter(value!));
   }
 
-  async loadProducts() {
+  async loadPins() {
     this.loading = true;
     try {
-      this.products = await this.rechargesService.getProducts();
-      this.filteredProducts = [...this.products];
+      this.pins = await this.productsService.getPins();
+      this.filteredPins = [...this.pins];
     } catch (err) {
-      console.error('Error al cargar productos', err);
+      console.error('Error al cargar pins', err);
     } finally {
       this.loading = false;
     }
@@ -60,24 +58,24 @@ export class Recharges implements OnInit {
 
   applyFilter(value: string) {
     if (!value) {
-      this.filteredProducts = [...this.products];
+      this.filteredPins = [...this.pins];
       return;
     }
 
     const normalizedValue = this.normalizeString(value);
     const regex = new RegExp(normalizedValue, 'i');
 
-    this.filteredProducts = this.products.filter(product =>
-      regex.test(this.normalizeString(product.name)) ||
-      regex.test(this.normalizeString(product.code))
+    this.filteredPins = this.pins.filter(pin =>
+      regex.test(this.normalizeString(pin.name)) ||
+      regex.test(this.normalizeString(pin.code))
     );
   }
 
   normalizeString(str: string): string {
     return str
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // quita acentos
-      .replace(/[^\w\s]/gi, '')       // quita signos de puntuación
+      .replace(/[\u0300-\u036f]/g, '') // quitar acentos
+      .replace(/[^\w\s]/gi, '')        // quitar signos de puntuación
       .toLowerCase();
   }
 }

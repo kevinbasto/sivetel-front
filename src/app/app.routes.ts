@@ -5,6 +5,8 @@ import { EditUser } from './pages/edit-user/edit-user';
 import { Login } from './pages/login/login';
 import { ClientLayout } from './layouts/client-layout/client-layout';
 import { Recharges } from './pages/recharges/recharges';
+import { Services } from './pages/services/services';
+import { Pins } from './pages/pins/pins';
 
 export const routes: Routes = [
     {
@@ -30,6 +32,14 @@ export const routes: Routes = [
             {
                 path: 'recharges',
                 component: Recharges
+            },
+            {
+                path: 'services',
+                component: Services
+            },
+            {
+                path: 'pins',
+                component: Pins
             }
         ]
     }

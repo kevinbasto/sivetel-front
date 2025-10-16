@@ -1,58 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { RechargesService, Product } from '../../services/recharges';
+
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, CurrencyPipe } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
+import { NgIf, NgFor, CurrencyPipe } from '@angular/common';
 import { ProductsService } from '../../services/products';
+import { Service } from '../../interfaces/service';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-recharges',
+  selector: 'app-services',
   standalone: true,
   imports: [
     MatTableModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    MatInputModule,
     ReactiveFormsModule,
     NgIf,
-    CurrencyPipe,
-    MatInputModule,
-    ReactiveFormsModule
+    CurrencyPipe
   ],
-  templateUrl: './recharges.html',
-  styleUrls: ['./recharges.scss']
+  templateUrl: './services.html',
+  styleUrls: ['./services.scss']
 })
-export class Recharges implements OnInit {
+export class Services implements OnInit {
 
-  products: Product[] = [];
-  filteredProducts: Product[] = [];
-  displayedColumns: string[] = ['name', 'code', 'description', 'amount'];
+  services: Service[] = [];
+  filteredServices: Service[] = [];
+  displayedColumns: string[] = ['name', 'code', 'description', 'price'];
   loading: boolean = true;
 
   filterControl = new FormControl('');
 
-  constructor(
-    private rechargesService: ProductsService
-  ) {}
+  constructor(private servicesService: ProductsService) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.loadServices();
 
+    // Filtrado local con debounce
     this.filterControl.valueChanges
       .pipe(debounceTime(500))
       .subscribe(value => this.applyFilter(value!));
   }
 
-  async loadProducts() {
+  async loadServices() {
     this.loading = true;
     try {
-      this.products = await this.rechargesService.getProducts();
-      this.filteredProducts = [...this.products];
+      this.services = await this.servicesService.getServices();
+      this.filteredServices = [...this.services];
     } catch (err) {
-      console.error('Error al cargar productos', err);
+      console.error('Error al cargar servicios', err);
     } finally {
       this.loading = false;
     }
@@ -60,24 +59,24 @@ export class Recharges implements OnInit {
 
   applyFilter(value: string) {
     if (!value) {
-      this.filteredProducts = [...this.products];
+      this.filteredServices = [...this.services];
       return;
     }
 
     const normalizedValue = this.normalizeString(value);
     const regex = new RegExp(normalizedValue, 'i');
 
-    this.filteredProducts = this.products.filter(product =>
-      regex.test(this.normalizeString(product.name)) ||
-      regex.test(this.normalizeString(product.code))
+    this.filteredServices = this.services.filter(service =>
+      regex.test(this.normalizeString(service.name)) ||
+      regex.test(this.normalizeString(service.code))
     );
   }
 
   normalizeString(str: string): string {
     return str
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // quita acentos
-      .replace(/[^\w\s]/gi, '')       // quita signos de puntuación
+      .replace(/[\u0300-\u036f]/g, '') // quitar acentos
+      .replace(/[^\w\s]/gi, '')        // quitar signos de puntuación
       .toLowerCase();
   }
 }
