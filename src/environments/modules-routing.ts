@@ -1,8 +1,8 @@
 export const modulesRouting = [
     {
-        icon: 'person',
-        name : 'Usuarios',
-        route: 'users'
+        icon: 'home',
+        name: 'inicio',
+        route: 'home'
     },
     {
         icon: 'sim_card',
@@ -18,5 +18,10 @@ export const modulesRouting = [
         icon: 'shop',
         name: 'Pines',
         route: 'pins'
+    },
+    {
+        icon: 'person',
+        name : 'Usuarios',
+        route: 'users'
     },
 ]

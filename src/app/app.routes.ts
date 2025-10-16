@@ -7,6 +7,7 @@ import { ClientLayout } from './layouts/client-layout/client-layout';
 import { Recharges } from './pages/recharges/recharges';
 import { Services } from './pages/services/services';
 import { Pins } from './pages/pins/pins';
+import { Dashboard } from './pages/dashboard/dashboard';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,10 @@ export const routes: Routes = [
             {
                 path: "users",
                 component: Users,
+            },
+            {
+                path: 'home',
+                component: Dashboard
             },
             {
                 path: 'users/create',
