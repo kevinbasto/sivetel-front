@@ -1,1 +1,38 @@
-<p>dashboard works!</p>
+<div class="cards-container">
+    <mat-card>
+        <mat-card-title>
+            Recargas y Pines
+        </mat-card-title>
+        <mat-card-subtitle>
+            Balance de recargas y pines
+        </mat-card-subtitle>
+        <mat-card-content class="content">
+            @if(balance){
+                <h2>
+                    {{balance.rechargeBalance | currency}}
+                </h2>
+            }
+            @else {
+                <mat-spinner [diameter]="70" ></mat-spinner>
+            }
+        </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-title>
+            Servicios
+        </mat-card-title>
+        <mat-card-subtitle>
+            balance para venta de servicios
+        </mat-card-subtitle>
+        <mat-card-content class="content">
+            @if(balance){
+                <h2>
+                    {{balance.servicesBalance | currency}}
+                </h2>
+            }
+            @else {
+                <mat-spinner [diameter]="70" ></mat-spinner>
+            }
+        </mat-card-content>
+    </mat-card>
+</div>
