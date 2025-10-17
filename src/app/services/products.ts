@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Pin } from '../interfaces/pin';
 import { Product } from '../interfaces/product';
 import { Service } from '../interfaces/service';
+import { Provider } from '../interfaces/provider';
 
 
 
@@ -18,7 +19,7 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   getProviders(type: 'RECHARGES' | 'PINS' | 'SERVICES') {
-    return lastValueFrom(this.http.get<Array<Pin>>(`${this.apiUrl}/providers`, { params: {type}}));
+    return lastValueFrom(this.http.get<Array<Provider>>(`${this.apiUrl}/providers`, { params: {type}}));
   }
 
   getPins() {

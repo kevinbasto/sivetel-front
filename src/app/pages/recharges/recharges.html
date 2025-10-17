@@ -5,12 +5,26 @@
         <input matInput [formControl]="filterControl" placeholder="Nombre o código">
     </mat-form-field>
 </div>
-
-<div *ngIf="loading" class="spinner-container">
-    <mat-spinner diameter="80"></mat-spinner>
+@if(loading){
+    <div class="spinner-container">
+        <mat-spinner diameter="80"></mat-spinner>
+    </div>
+}
+@else{
+<div class="items-container">
+    @for (provider of filteredProviders; track $index) {
+        <mat-card class="product-item">
+            <div class="img-container">
+                <img src="{{imagesSrc + '/products/provider-image/' + provider.id}}" alt="">
+            </div>
+            <h2>
+                {{provider.name}}
+            </h2>
+        </mat-card>
+    }
 </div>
-
-<table mat-table [dataSource]="filteredProducts" *ngIf="!loading">
+}
+<!-- <table mat-table [dataSource]="filteredProducts" *ngIf="!loading">
 
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Nombre</th>
@@ -34,4 +48,4 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+</table> -->

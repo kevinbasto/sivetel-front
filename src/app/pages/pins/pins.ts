@@ -8,6 +8,8 @@ import { MatCardModule } from '@angular/material/card';
 import { NgIf, NgFor, CurrencyPipe } from '@angular/common';
 import { Pin } from '../../interfaces/pin';
 import { MatInputModule } from '@angular/material/input';
+import { Provider } from '../../interfaces/provider';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-pins',
@@ -17,8 +19,6 @@ import { MatInputModule } from '@angular/material/input';
     MatProgressSpinnerModule,
     MatCardModule,
     ReactiveFormsModule,
-    NgIf,
-    CurrencyPipe,
     MatInputModule
   ],
   templateUrl: './pins.html',
@@ -26,10 +26,11 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class Pins implements OnInit {
 
-  pins: Pin[] = [];
-  filteredPins: Pin[] = [];
+  providers: Provider[] = [];
+  filteredProviders: Provider[] = [];
   displayedColumns: string[] = ['name', 'code', 'description', 'amount'];
   loading: boolean = true;
+  imagesSrc = environment.apiUrl;
 
   filterControl = new FormControl('');
 
@@ -47,8 +48,8 @@ export class Pins implements OnInit {
   async loadPins() {
     this.loading = true;
     try {
-      this.pins = await this.productsService.getPins();
-      this.filteredPins = [...this.pins];
+      this.providers = await this.productsService.getProviders("PINS");
+      this.filteredProviders = [...this.providers];
     } catch (err) {
       console.error('Error al cargar pins', err);
     } finally {
@@ -58,16 +59,15 @@ export class Pins implements OnInit {
 
   applyFilter(value: string) {
     if (!value) {
-      this.filteredPins = [...this.pins];
+      this.filteredProviders = [...this.providers];
       return;
     }
 
     const normalizedValue = this.normalizeString(value);
     const regex = new RegExp(normalizedValue, 'i');
 
-    this.filteredPins = this.pins.filter(pin =>
-      regex.test(this.normalizeString(pin.name)) ||
-      regex.test(this.normalizeString(pin.code))
+    this.filteredProviders = this.providers.filter(pin =>
+      regex.test(this.normalizeString(pin.name)) 
     );
   }
 

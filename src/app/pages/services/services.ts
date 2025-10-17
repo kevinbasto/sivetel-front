@@ -9,6 +9,8 @@ import { NgIf, NgFor, CurrencyPipe } from '@angular/common';
 import { ProductsService } from '../../services/products';
 import { Service } from '../../interfaces/service';
 import { MatInputModule } from '@angular/material/input';
+import { Provider } from '../../interfaces/provider';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-services',
@@ -19,22 +21,21 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatInputModule,
     ReactiveFormsModule,
-    NgIf,
-    CurrencyPipe
   ],
   templateUrl: './services.html',
   styleUrls: ['./services.scss']
 })
 export class Services implements OnInit {
 
-  services: Service[] = [];
-  filteredServices: Service[] = [];
+  providers: Provider[] = [];
+  filteredProviders: Provider[] = [];
   displayedColumns: string[] = ['name', 'code', 'description', 'price'];
   loading: boolean = true;
 
   filterControl = new FormControl('');
+  imagesSrc = environment.apiUrl;
 
-  constructor(private servicesService: ProductsService) {}
+  constructor(private productsService: ProductsService) {}
 
   ngOnInit(): void {
     this.loadServices();
@@ -48,8 +49,8 @@ export class Services implements OnInit {
   async loadServices() {
     this.loading = true;
     try {
-      this.services = await this.servicesService.getServices();
-      this.filteredServices = [...this.services];
+      this.providers = await this.productsService.getProviders("SERVICES");
+      this.filteredProviders = [...this.providers];
     } catch (err) {
       console.error('Error al cargar servicios', err);
     } finally {
@@ -59,16 +60,15 @@ export class Services implements OnInit {
 
   applyFilter(value: string) {
     if (!value) {
-      this.filteredServices = [...this.services];
+      this.filteredProviders = [...this.providers];
       return;
     }
 
     const normalizedValue = this.normalizeString(value);
     const regex = new RegExp(normalizedValue, 'i');
 
-    this.filteredServices = this.services.filter(service =>
-      regex.test(this.normalizeString(service.name)) ||
-      regex.test(this.normalizeString(service.code))
+    this.filteredProviders = this.providers.filter(provider =>
+      regex.test(this.normalizeString(provider.name))
     );
   }
 

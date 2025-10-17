@@ -28,3 +28,32 @@ table {
 th.mat-header-cell {
   text-align: left;
 }
+
+.items-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  
+  gap: 1rem;
+}
+
+.product-item{
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  &:hover{
+    transform: scale(1.05);
+    filter: brightness(.9);
+    transition: 100ms;
+  }
+  .img-container{
+    height: 80%;
+    display: grid;
+    place-content: center;
+    img{
+      width: 200px;
+      object-fit: contain;
+    }
+  }
+}
