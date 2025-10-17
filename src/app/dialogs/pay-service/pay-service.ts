@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Service } from '../../interfaces/service';
 
 
 @Component({
@@ -26,7 +27,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class PayService {
 
   rechargeForm: FormGroup;
-  products?: Array<Product>;
+  service?: Service;
   imagesSrc : string = ''
 
   constructor(
@@ -46,8 +47,8 @@ export class PayService {
 
   fetchProducts() {
     lastValueFrom(this.http.get<Array<Product>>(`${environment.apiUrl}/products/services`, {params: {providerId: this.data.providerId}}))
-    .then((products: Array<Product>) => {
-      this.products = products;
+    .then((services: Array<Product>) => {
+      this.service = services[0];
     })
     .catch((err) => {
       console.log(err);
