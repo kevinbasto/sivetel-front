@@ -1,0 +1,18 @@
+form{
+    img{
+        width: 300px;
+        max-height: 200px;
+        object-fit: contain;
+        padding: 1rem;
+    }
+    .card-header{
+        padding-bottom: 1rem;
+    }
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    .form-actions{
+        display: flex;
+        gap: 1rem;
+    }
+}

@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, NgFor, CurrencyPipe } from '@angular/common';
 import { ProductsService } from '../../services/products';
-import { Service } from '../../interfaces/service';
 import { MatInputModule } from '@angular/material/input';
 import { Provider } from '../../interfaces/provider';
 import { environment } from '../../../environments/environment';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PayService } from '../../dialogs/pay-service/pay-service';
 
 @Component({
   selector: 'app-services',
@@ -21,6 +20,7 @@ import { environment } from '../../../environments/environment';
     MatCardModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatDialogModule
   ],
   templateUrl: './services.html',
   styleUrls: ['./services.scss']
@@ -35,7 +35,10 @@ export class Services implements OnInit {
   filterControl = new FormControl('');
   imagesSrc = environment.apiUrl;
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadServices();
@@ -78,5 +81,9 @@ export class Services implements OnInit {
       .replace(/[\u0300-\u036f]/g, '') // quitar acentos
       .replace(/[^\w\s]/gi, '')        // quitar signos de puntuación
       .toLowerCase();
+  }
+
+  payService(providerId: number) {
+    this.matDialog.open(PayService, { data: { providerId } });
   }
 }

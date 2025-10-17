@@ -10,6 +10,9 @@ import { Pin } from '../../interfaces/pin';
 import { MatInputModule } from '@angular/material/input';
 import { Provider } from '../../interfaces/provider';
 import { environment } from '../../../environments/environment';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PayService } from '../../dialogs/pay-service/pay-service';
+import { PayPin } from '../../dialogs/pay-pin/pay-pin';
 
 @Component({
   selector: 'app-pins',
@@ -19,7 +22,8 @@ import { environment } from '../../../environments/environment';
     MatProgressSpinnerModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
   ],
   templateUrl: './pins.html',
   styleUrls: ['./pins.scss']
@@ -34,7 +38,10 @@ export class Pins implements OnInit {
 
   filterControl = new FormControl('');
 
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    private matDialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.loadPins();
@@ -67,7 +74,7 @@ export class Pins implements OnInit {
     const regex = new RegExp(normalizedValue, 'i');
 
     this.filteredProviders = this.providers.filter(pin =>
-      regex.test(this.normalizeString(pin.name)) 
+      regex.test(this.normalizeString(pin.name))
     );
   }
 
@@ -77,5 +84,9 @@ export class Pins implements OnInit {
       .replace(/[\u0300-\u036f]/g, '') // quitar acentos
       .replace(/[^\w\s]/gi, '')        // quitar signos de puntuación
       .toLowerCase();
+  }
+
+  payPin(providerId: number) {
+    this.matDialog.open(PayPin, { data: { providerId } });
   }
 }

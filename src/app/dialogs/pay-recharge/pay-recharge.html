@@ -1,0 +1,46 @@
+<form [formGroup]="rechargeForm" >
+    <img src="{{imagesSrc}}" alt="">
+    <div class="card-header" style="padding: 1rem;">
+        <h1>
+            Realizar recarga
+        </h1>
+    </div>
+    <mat-form-field>
+        <mat-label>
+            Teléfono
+        </mat-label>
+        <input type="text" matInput  >
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>
+            Confirmar Teléfono
+        </mat-label>
+        <input type="text" matInput  >
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>
+            Recarga
+        </mat-label>
+        <mat-select>
+            @for (product of products; track $index) {
+                <mat-option [value]="product.id" >
+                    {{product.description}}
+                </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <div class="form-actions">
+        <button mat-raised-button (click)="cancel()" >
+            <mat-icon>
+                cancel
+            </mat-icon>
+            Cancelar
+        </button>
+        <button mat-raised-button color="primary">
+            <mat-icon>
+                save
+            </mat-icon>
+            Realizar Recarga
+        </button>
+    </div>
+</form>

@@ -11,6 +11,8 @@ import { ProductsService } from '../../services/products';
 import { Product } from '../../interfaces/product';
 import { Provider } from '../../interfaces/provider';
 import { environment } from '../../../environments/environment';
+import { PayRecharge } from '../../dialogs/pay-recharge/pay-recharge';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-recharges',
@@ -21,7 +23,8 @@ import { environment } from '../../../environments/environment';
     MatCardModule,
     ReactiveFormsModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule,
   ],
   templateUrl: './recharges.html',
   styleUrls: ['./recharges.scss']
@@ -36,7 +39,8 @@ export class Recharges implements OnInit {
   filterControl = new FormControl('');
 
   constructor(
-    private rechargesService: ProductsService
+    private rechargesService: ProductsService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -80,5 +84,11 @@ export class Recharges implements OnInit {
       .replace(/[\u0300-\u036f]/g, '') // quita acentos
       .replace(/[^\w\s]/gi, '')       // quita signos de puntuación
       .toLowerCase();
+  }
+
+  payRecharge(providerId: number) {
+    this.dialog.open(PayRecharge, {
+      data: { providerId }
+    })
   }
 }

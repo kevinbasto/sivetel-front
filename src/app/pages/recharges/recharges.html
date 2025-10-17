@@ -13,7 +13,7 @@
 @else{
 <div class="items-container">
     @for (provider of filteredProviders; track $index) {
-        <mat-card class="product-item">
+        <mat-card class="product-item" (click)="payRecharge(provider.id)" >
             <div class="img-container">
                 <img src="{{imagesSrc + '/products/provider-image/' + provider.id}}" alt="">
             </div>
