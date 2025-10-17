@@ -17,6 +17,10 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
+  getProviders(type: 'RECHARGES' | 'PINS' | 'SERVICES') {
+    return lastValueFrom(this.http.get<Array<Pin>>(`${this.apiUrl}/providers`, { params: {type}}));
+  }
+
   getPins() {
     return lastValueFrom(this.http.get<Array<Pin>>(`${this.apiUrl}/pins`));
   }

@@ -27,7 +27,7 @@ import { ProductsService } from '../../services/products';
 })
 export class Recharges implements OnInit {
 
-  products: Product[] = [];
+  providers: any[] = [];
   filteredProducts: Product[] = [];
   displayedColumns: string[] = ['name', 'code', 'description', 'amount'];
   loading: boolean = true;
@@ -49,8 +49,8 @@ export class Recharges implements OnInit {
   async loadProducts() {
     this.loading = true;
     try {
-      this.products = await this.rechargesService.getProducts();
-      this.filteredProducts = [...this.products];
+      this.providers = await this.rechargesService.getProviders('RECHARGES');
+      this.filteredProducts = [...this.providers];
     } catch (err) {
       console.error('Error al cargar productos', err);
     } finally {
@@ -60,14 +60,14 @@ export class Recharges implements OnInit {
 
   applyFilter(value: string) {
     if (!value) {
-      this.filteredProducts = [...this.products];
+      this.filteredProducts = [...this.providers];
       return;
     }
 
     const normalizedValue = this.normalizeString(value);
     const regex = new RegExp(normalizedValue, 'i');
 
-    this.filteredProducts = this.products.filter(product =>
+    this.filteredProducts = this.providers.filter(product =>
       regex.test(this.normalizeString(product.name)) ||
       regex.test(this.normalizeString(product.code))
     );

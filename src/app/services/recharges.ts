@@ -18,7 +18,7 @@ export interface Product {
 })
 export class RechargesService {
 
-  private apiUrl = `${environment.apiUrl}/products`;
+  private apiUrl = `${environment.apiUrl}/products/providers?type=RECHARGES`;
 
   constructor(private http: HttpClient) {}
 
