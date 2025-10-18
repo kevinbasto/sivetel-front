@@ -8,6 +8,7 @@ import { Recharges } from './pages/recharges/recharges';
 import { Services } from './pages/services/services';
 import { Pins } from './pages/pins/pins';
 import { Dashboard } from './pages/dashboard/dashboard';
+import { Branches } from './pages/branches/branches';
 
 export const routes: Routes = [
     {
@@ -45,6 +46,10 @@ export const routes: Routes = [
             {
                 path: 'pins',
                 component: Pins
+            },
+            {
+                path: 'branches',
+                component: Branches
             }
         ]
     }

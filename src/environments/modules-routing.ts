@@ -24,4 +24,9 @@ export const modulesRouting = [
         name : 'Usuarios',
         route: 'users'
     },
+    {
+        icon: 'storefront',
+        name: 'Sucursales',
+        route: 'branches'
+    }
 ]
