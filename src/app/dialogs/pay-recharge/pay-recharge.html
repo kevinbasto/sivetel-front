@@ -1,4 +1,4 @@
-<form [formGroup]="rechargeForm" >
+<form [formGroup]="rechargeForm">
     <img src="{{imagesSrc}}" alt="">
     <div class="card-header" style="padding: 1rem;">
         <h1>
@@ -9,38 +9,45 @@
         <mat-label>
             Teléfono
         </mat-label>
-        <input type="text" matInput  >
+        <input type="text" matInput formControlName="number">
     </mat-form-field>
     <mat-form-field>
         <mat-label>
             Confirmar Teléfono
         </mat-label>
-        <input type="text" matInput  >
+        <input type="text" matInput formControlName="confirmNumber">
     </mat-form-field>
     <mat-form-field>
         <mat-label>
             Recarga
         </mat-label>
-        <mat-select>
+        <mat-select formControlName="product">
             @for (product of products; track $index) {
-                <mat-option [value]="product.id" >
-                    {{product.description}}
-                </mat-option>
+            <mat-option [value]="product.id">
+                {{product.description}}
+            </mat-option>
             }
         </mat-select>
     </mat-form-field>
     <div class="form-actions">
-        <button mat-raised-button (click)="cancel()" >
+        <button mat-raised-button (click)="cancel()" [disabled]="processing">
             <mat-icon>
                 cancel
             </mat-icon>
             Cancelar
         </button>
-        <button mat-raised-button color="primary">
-            <mat-icon>
-                save
-            </mat-icon>
-            Realizar Recarga
+        <button mat-raised-button color="primary" (click)="makeRecharge()" [disabled]="processing">
+            @if(!processing){
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <mat-icon>
+                    save
+                </mat-icon>
+                <p>Realizar Recarga</p>
+            </div>
+            }
+            @else {
+                <mat-spinner  [diameter]="35"></mat-spinner>
+            }
         </button>
     </div>
 </form>

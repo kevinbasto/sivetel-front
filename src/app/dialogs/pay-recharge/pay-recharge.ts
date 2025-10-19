@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pay-recharge',
@@ -18,6 +20,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   templateUrl: './pay-recharge.html',
   styleUrl: './pay-recharge.scss'
@@ -27,12 +31,14 @@ export class PayRecharge {
   rechargeForm: FormGroup;
   products?: Array<Product>;
   imagesSrc : string = ''
+  processing: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { providerId: number },
     private dialogRef: MatDialogRef<PayRecharge>,
     private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackbar: MatSnackBar
   ) {
     this.rechargeForm = this.fb.group({
       number: [''],
@@ -57,5 +63,20 @@ export class PayRecharge {
     this.dialogRef.close();
   }
 
-  makeRecharge(){}
+  makeRecharge(){
+    this.processing = true;
+    const { number, confirmNumber, product } = this.rechargeForm.value;
+    lastValueFrom(this.http.post<{message : string}>(`${environment.apiUrl}/sales/recharge`, { userId: 1, phoneNumber: number, productId: product }))
+    .then((res) => {
+      this.snackbar.open('Recarga hecha con éxito', 'aceptar', { duration: 1000 });
+      this.dialogRef.close();
+    })
+    .catch((err) => {
+      this.snackbar.open('Hubo un problema al realizar la recarga, reintenta mas tarde', 'aceptar', { duration: 1000 });
+      this.dialogRef.close();
+    })
+    .finally(() => {
+      this.processing = false;
+    });
+  }
 }
