@@ -4,6 +4,9 @@
         <h1>
             Realizar recarga
         </h1>
+        <mat-hint>
+            Los pagos de servicio se cobran con 20 pesos de comisión
+        </mat-hint>
     </div>
     @if(service){
         <p>
@@ -12,36 +15,35 @@
     }
     <mat-form-field>
         <mat-label>
-            Teléfono
+            Referencia
         </mat-label>
-        <input type="text" matInput  >
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>
-            Confirmar Teléfono
-        </mat-label>
-        <input type="text" matInput  >
+        <input type="text" matInput formControlName="reference" >
     </mat-form-field>
     <mat-form-field>
         <mat-label>
             Cantidad
         </mat-label>
-        <input type="text" matInput="">
+        <input type="text" matInput formControlName="amount" >
     </mat-form-field>
     <div class="form-actions">
-        <button mat-raised-button (click)="cancel()" >
+        <button mat-raised-button (click)="cancel()" [disabled]="processing">
             <mat-icon>
                 cancel
             </mat-icon>
             Cancelar
         </button>
-        <button mat-raised-button color="primary">
-            <mat-icon>
-                save
-            </mat-icon>
-            <p>
-                Realizar Recarga
-            </p>
+        <button mat-raised-button color="primary" (click)="makeService()" [disabled]="processing">
+            @if(!processing){
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <mat-icon>
+                    save
+                </mat-icon>
+                <p>Realizar Recarga</p>
+            </div>
+            }
+            @else {
+                <mat-spinner  [diameter]="35"></mat-spinner>
+            }
         </button>
     </div>
 </form>

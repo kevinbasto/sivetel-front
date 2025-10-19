@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Service } from '../../interfaces/service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -20,12 +22,15 @@ import { Service } from '../../interfaces/service';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   templateUrl: './pay-service.html',
   styleUrl: './pay-service.scss'
 })
 export class PayService {
 
+  processing : boolean = false;
   rechargeForm: FormGroup;
   service?: Service;
   imagesSrc : string = ''
@@ -34,12 +39,12 @@ export class PayService {
     @Inject(MAT_DIALOG_DATA) private data: { providerId: number },
     private dialogRef: MatDialogRef<PayService>,
     private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackbar: MatSnackBar
   ) {
     this.rechargeForm = this.fb.group({
-      number: [''],
-      confirmNumber: [''],
-      product: ['']
+      reference: [''],
+      amount: ['']
     })
     this.imagesSrc = `${environment.apiUrl}/products/provider-image/${this.data.providerId}`;
     this.fetchProducts();
@@ -59,5 +64,25 @@ export class PayService {
     this.dialogRef.close();
   }
 
-  makeService(){}
+  makeService(){
+    this.processing = true;
+    const { reference, amount } = this.rechargeForm.value;
+    lastValueFrom(this.http.post<{message : string}>(`${environment.apiUrl}/sales/service`, { 
+      userId: 1, 
+      serviceId: this.service!.id,
+      amount: amount,
+      reference
+    }))
+    .then((res) => {
+      this.snackbar.open('Recarga hecha con éxito', 'aceptar', { duration: 1000 });
+      this.dialogRef.close();
+    })
+    .catch((err) => {
+      this.snackbar.open('Hubo un problema al realizar la recarga, reintenta mas tarde', 'aceptar', { duration: 1000 });
+      this.dialogRef.close();
+    })
+    .finally(() => {
+      this.processing = false;
+    });
+  }
 }
