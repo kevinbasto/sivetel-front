@@ -6,9 +6,8 @@
 - [x] descarga de imagenes
 - [x] descarga de productos, servicios y pines
 - [x] grid de imagenes
-- [ ] generar recarga
-- [ ] generar servicio
-- [ ] generar pin
+- [x] generar recarga
+- [x] generar servicio
+- [x] generar pin
 - [ ] auth guard
 - [ ] admin guard
-- [ ] grafico de ventas
