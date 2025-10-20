@@ -9,6 +9,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgIf } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { Branch } from '../../interfaces/branch';
+import { BranchesService } from '../../services/branches.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   standalone: true,
@@ -19,7 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatCheckboxModule,
     MatButtonModule,
     NgIf,
-    
+    MatSelectModule,
   ],
   selector: 'app-edit-user',
   templateUrl: './edit-user.html',
@@ -30,13 +33,16 @@ export class EditUser implements OnInit {
   isLoading = true;
   isSubmitting = false;
   userId!: number;
+  branches: Array<Branch> = [];
+  user?: User;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private usersService: UsersService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private branchesService: BranchesService
   ) {}
 
   ngOnInit() {
@@ -44,20 +50,30 @@ export class EditUser implements OnInit {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       password: [''], // opcional
+      branch: [''],
       isAdmin: [false],
       inactive: [false]
     });
 
     this.loadUser();
+    this.branchesService.getBranches('ACTIVE')
+    .then((branches: Array<Branch>) => {
+      this.branches = branches;
+    })
+    .catch(() => {
+      this.snackBar.open('No se pudo encontrar las sucursales', 'ok', { duration: 3_000 });
+    })
   }
 
   loadUser() {
     this.usersService.getUserById(this.userId).subscribe({
       next: (user: User) => {
+        this.user = user;
         this.userForm.patchValue({
           name: user.name,
           isAdmin: user.isAdmin,
-          inactive: user.inactive
+          inactive: user.inactive,
+          branch: user.branch.id,
         });
         this.isLoading = false;
       },
@@ -80,6 +96,7 @@ export class EditUser implements OnInit {
     }
 
     const updateData: UpdateUserDto = { ...this.userForm.value };
+    updateData.branch = this.branches.find(branch => branch.id == updateData.branch! as unknown as number);
     if (!updateData.password) delete updateData.password; // solo enviar si hay contraseña
 
     this.isSubmitting = true;

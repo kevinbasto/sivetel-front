@@ -1,9 +1,12 @@
+import { Branch } from "./branch";
+
 export interface User {
   id: number;
   username: string;
   name: string;
   inactive: boolean;
   isAdmin: boolean;
+  branch: Branch;
   createdAt: string;
   updatedAt: string;
 }
@@ -18,6 +21,7 @@ export interface CreateUserDto {
 // Para actualizar un usuario
 export interface UpdateUserDto {
   name?: string;
+  branch?: Branch;
   password?: string;
   inactive?: boolean;
   isAdmin?: boolean;
