@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   imports: [
@@ -15,7 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCheckboxModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    NgIf,
+    RouterModule
   ],
   standalone: true,
   selector: 'app-create-user',
@@ -29,7 +30,8 @@ export class CreateUser implements OnInit {
   constructor(
     private fb: FormBuilder,
     private usersService: UsersService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -39,6 +41,10 @@ export class CreateUser implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       isAdmin: [false]
     });
+  }
+
+  cancel() {
+    this.router.navigate(['/users'])
   }
 
   submit() {

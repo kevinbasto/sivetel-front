@@ -9,6 +9,8 @@ import { Services } from './pages/services/services';
 import { Pins } from './pages/pins/pins';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Branches } from './pages/branches/branches';
+import { CreateBranch } from './pages/create-branch/create-branch';
+import { EditBranch } from './pages/edit-branch/edit-branch';
 
 export const routes: Routes = [
     {
@@ -50,6 +52,14 @@ export const routes: Routes = [
             {
                 path: 'branches',
                 component: Branches
+            },
+            {
+                path: 'branches/create',
+                component: CreateBranch
+            },
+            {
+                path: 'branches/:id',
+                component: EditBranch
             }
         ]
     }

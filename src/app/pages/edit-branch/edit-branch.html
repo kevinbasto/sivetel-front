@@ -1,7 +1,7 @@
-<div class="edit-user-container" *ngIf="!isLoading; else loading">
+<div class="edit-user-container" >
   <h2>Editar Usuario</h2>
 
-  <form [formGroup]="userForm" (ngSubmit)="submit()">
+  <form [formGroup]="form" (ngSubmit)="submit()">
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Nombre</mat-label>
@@ -12,21 +12,29 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Contraseña (opcional)</mat-label>
-      <input matInput type="password" formControlName="password" placeholder="Nueva contraseña">
-      <mat-error *ngIf="password?.hasError('minlength')">
-        Mínimo 6 caracteres
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="address" >
+      <mat-error *ngIf="name?.hasError('required')">
+        La dirección es obligatoria
       </mat-error>
     </mat-form-field>
 
-    <mat-checkbox formControlName="isAdmin">Administrador</mat-checkbox>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Ciudad</mat-label>
+      <input matInput formControlName="city" placeholder="Ingrese el nombre">
+      <mat-error *ngIf="name?.hasError('required')">
+        La ciudad es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+
     <mat-checkbox formControlName="inactive">Inactivo</mat-checkbox>
 
     <div class="actions">
       <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting" (click)="cancel()" >
         cancel
       </button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || userForm.invalid">
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting || form.invalid">
         @if(isSubmitting){
           <mat-spinner diameter="20"></mat-spinner>
         }

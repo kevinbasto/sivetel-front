@@ -69,6 +69,10 @@ export class EditUser implements OnInit {
     });
   }
 
+  cancel() {
+    this.router.navigate(['/users'])
+  }
+
   submit() {
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();

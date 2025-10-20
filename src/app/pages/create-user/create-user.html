@@ -40,6 +40,9 @@
     <mat-checkbox formControlName="isAdmin">Administrador</mat-checkbox>
 
     <div class="actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting" (click)="cancel()" >
+        cancel
+      </button>
       <button
         mat-raised-button
         color="primary"
@@ -55,12 +58,11 @@
           class="button-spinner"
         >
         </mat-progress-spinner>
-
-        <span *ngIf="!isSubmitting">Crear Usuario</span>
-        <span *ngIf="isSubmitting">Creando...</span>
-      </button>
-      <button mat-stroked-button type="button" (click)="userForm.reset({ isAdmin: false })">
-        Limpiar
+        @if(!isSubmitting){
+        <span>Crear Usuario</span>
+        } @else{
+        <span>Creando...</span>
+        }
       </button>
     </div>
   </form>

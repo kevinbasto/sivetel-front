@@ -1,0 +1,47 @@
+<form [formGroup]="form" (submit)="submit()">
+  <h1>Crear sucursal nueva</h1>
+  <mat-form-field>
+    <mat-label> Nombre </mat-label>
+    <input type="text" matInput formControlName="name" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label> Dirección </mat-label>
+    <input type="text" matInput formControlName="address" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label> Ciudad </mat-label>
+    <input type="text" matInput formControlName="city" />
+  </mat-form-field>
+  <div class="actions">
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="cancel()"
+    >
+    <span> Cancelar </span>
+    </button>
+      <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="uploading || form.invalid"
+      class="submit-button"
+    >
+      <mat-progress-spinner
+        *ngIf="isSubmitting"
+        mode="indeterminate"
+        diameter="20"
+        color="accent"
+        class="button-spinner"
+      >
+      </mat-progress-spinner>
+
+      @if(!uploading){
+      <span>Crear Usuario</span>
+      } @else {
+      <span>Creando...</span>
+      }
+    </button>
+  </div>
+</form>

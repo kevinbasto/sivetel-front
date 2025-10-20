@@ -1,0 +1,52 @@
+.spinner-container {
+    width: 100%;
+    display: grid;
+    place-content: center;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    padding: .5rem;
+}
+
+.rows {
+    cursor: pointer;
+
+    &:hover {
+        background: hsl(0, 0%, 90%);
+    }
+
+    &.selected-row {
+        background: hsl(0, 0%, 80%);
+    }
+
+    &.selected-row:hover {
+        background: hsl(0, 0%, 80%);
+        /* mantiene el mismo color al hacer hover */
+    }
+
+}
+
+.active {
+  color: green;
+  font-weight: bold;
+}
+
+.inactive {
+  color: red;
+  font-weight: bold;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: .5rem;
+}
+
+.table-headers{
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+    align-items: center;
+}
