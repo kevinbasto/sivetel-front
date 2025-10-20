@@ -36,6 +36,19 @@
         Mínimo 6 caracteres
       </mat-error>
     </mat-form-field>
+    
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>
+        Sucursal
+      </mat-label>
+      <mat-select formControlName="branch" >
+        @for(branch of branches; track $index) {
+          <mat-option [value]="branch" >
+            {{branch.name}}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
     <mat-checkbox formControlName="isAdmin">Administrador</mat-checkbox>
 

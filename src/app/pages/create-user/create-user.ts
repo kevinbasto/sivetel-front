@@ -8,6 +8,9 @@ import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterModule } from '@angular/router';
+import { BranchesService } from '../../services/branches.service';
+import { Branch } from '../../interfaces/branch';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   imports: [
@@ -16,6 +19,7 @@ import { Router, RouterModule } from '@angular/router';
     MatCheckboxModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     RouterModule
   ],
   standalone: true,
@@ -26,12 +30,14 @@ import { Router, RouterModule } from '@angular/router';
 export class CreateUser implements OnInit {
   userForm!: FormGroup;
   isSubmitting = false;
+  branches : Array<Branch> = [];
 
   constructor(
     private fb: FormBuilder,
     private usersService: UsersService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private branchesService: BranchesService
   ) {}
 
   ngOnInit() {
@@ -39,8 +45,15 @@ export class CreateUser implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3)]],
       name: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      branch: [''],
       isAdmin: [false]
     });
+    this.branchesService.getBranches('ACTIVE')
+    .then((branches) => {
+      this.branches = branches;
+    })
+    .catch(() => {});
+
   }
 
   cancel() {
@@ -57,7 +70,7 @@ export class CreateUser implements OnInit {
     this.usersService.createUser(this.userForm.value).subscribe({
       next: () => {
         this.snackBar.open('Usuario creado correctamente', 'Cerrar', { duration: 3000 });
-        this.userForm.reset({ isAdmin: false });
+        this.router.navigate(['/users']);
         this.isSubmitting = false;
       },
       error: (err) => {
