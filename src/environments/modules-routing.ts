@@ -2,31 +2,37 @@ export const modulesRouting = [
     {
         icon: 'home',
         name: 'inicio',
-        route: 'home'
+        route: 'home',
+        isAdmin: true,
     },
     {
         icon: 'sim_card',
         name: 'Recargas',
-        route: 'recharges'
+        route: 'recharges',
+        isAdmin: false,
     },
     {
         icon: 'receipt_long',
         name: 'Servicios',
-        route: 'services'
+        route: 'services',
+        isAdmin: false,
     },
     {
         icon: 'shop',
         name: 'Pines',
-        route: 'pins'
+        route: 'pins',
+        isAdmin: false,
     },
     {
         icon: 'person',
         name : 'Usuarios',
-        route: 'users'
+        route: 'users',
+        isAdmin: true,
     },
     {
         icon: 'storefront',
         name: 'Sucursales',
-        route: 'branches'
+        route: 'branches',
+        isAdmin: true,
     }
 ]

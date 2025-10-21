@@ -1,33 +1,47 @@
 <mat-sidenav-container class="sidenav-container">
+  <!-- Sidenav lateral -->
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      @for(route of routes; track $index) {
+      <button mat-list-item [routerLink]="'/' + route.route">
+        <mat-icon matListItemIcon>
+          {{ route.icon }}
+        </mat-icon>
+        <a routerLinkActive="active-link">{{ route.name }}</a>
+      </button>
 
-    <!-- Sidenav lateral -->
-    <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
-        <mat-toolbar color="primary">Menu</mat-toolbar>
-        <mat-nav-list>
-            @for(route of routes; track $index) {
-            <button mat-list-item [routerLink]="'/'+route.route" >
-                <mat-icon matListItemIcon >
-                    {{route.icon}}
-                </mat-icon>
-                <a   routerLinkActive="active-link"  >{{route.name}}</a>
-            </button>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
 
-            }
-        </mat-nav-list>
-    </mat-sidenav>
+  <!-- Contenido principal -->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="top-toolbar">
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <button mat-icon-button (click)="toggleSidenav()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>Recargas & Servicios MDS</span>
+      </div>
+      <button matButton [matMenuTriggerFor]="menu">
+        <mat-icon>
+            settings
+        </mat-icon>
+        opciones
+      </button>
+      <mat-menu #menu="matMenu" >
+        <button  mat-menu-item (click)="logout()">
+            <mat-icon>
+                logout
+            </mat-icon>
+            Cerrar sesión
+        </button>
+      </mat-menu>
+    </mat-toolbar>
 
-    <!-- Contenido principal -->
-    <mat-sidenav-content>
-        <mat-toolbar color="primary" class="top-toolbar">
-            <button mat-icon-button (click)="toggleSidenav()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <span>Recargas & Servicios MDS</span>
-        </mat-toolbar>
-
-        <div class="main-content">
-            <router-outlet></router-outlet>
-        </div>
-    </mat-sidenav-content>
-
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>

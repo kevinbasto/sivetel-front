@@ -9,9 +9,10 @@ export interface LoginDto {
 }
 
 export interface AuthResponse {
-  token: string;
-  expiresIn?: number; // opcional
-  user?: any; // info del usuario si deseas retornarla
+  session: string;
+  isAdmin: boolean;
+  name: string;
+  expiresIn: string;
 }
 
 @Injectable({
@@ -34,8 +35,15 @@ export class AuthService {
   login(credentials: LoginDto): Promise<AuthResponse> {
     return lastValueFrom(this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials))
       .then(res => {
-        console.log(res);
-        this.setToken(res.token);
+        const {session, expiresIn, isAdmin, name} = res;
+        window.localStorage.setItem('auth_token', session);
+        window.localStorage.setItem('expiresIn', expiresIn);
+        let date = new Date();
+        window.localStorage.setItem('expeditionDate', (date).toUTCString()),
+        window.localStorage.setItem('expiration_date', (new Date(date.getTime() + 1 *60 *60 *1_000).toUTCString()));
+        window.localStorage.setItem('isAdmin', isAdmin? 'true' : 'false');
+        window.localStorage.setItem('name', name);
+        // this.setToken(res.session);
         this.loggedInSubject.next(true);
         return res;
       });
@@ -45,8 +53,16 @@ export class AuthService {
    * Logout
    */
   logout() {
-    this.removeToken();
+    // this.removeToken();
+
+    window.localStorage.removeItem('auth_token');
+    window.localStorage.removeItem('expiresIn');
+    window.localStorage.removeItem('expeditionDate'),
+    window.localStorage.removeItem('expiration_date');
+    window.localStorage.removeItem('isAdmin');
+    window.localStorage.removeItem('name');
     this.loggedInSubject.next(false);
+
   }
 
   /**
@@ -67,6 +83,7 @@ export class AuthService {
    * Guardar token en localStorage
    */
   private setToken(token: string) {
+    console.log(token);
     localStorage.setItem(this.tokenKey, token);
   }
 

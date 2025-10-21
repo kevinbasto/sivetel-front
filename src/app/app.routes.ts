@@ -12,6 +12,7 @@ import { Branches } from './pages/branches/branches';
 import { CreateBranch } from './pages/create-branch/create-branch';
 import { EditBranch } from './pages/edit-branch/edit-branch';
 import { authGuard } from './guards/auth-guard';
+import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
     {
@@ -26,18 +27,22 @@ export const routes: Routes = [
             {
                 path: "users",
                 component: Users,
+                canActivate: [adminGuard]
             },
             {
                 path: 'home',
-                component: Dashboard
+                component: Dashboard,
+                canActivate: [adminGuard]
             },
             {
                 path: 'users/create',
-                component: CreateUser
+                component: CreateUser,
+                canActivate: [adminGuard]
             },
             {
                 path: 'users/:id',
-                component: EditUser
+                component: EditUser,
+                canActivate: [adminGuard]
             },
             {
                 path: 'recharges',
@@ -53,15 +58,18 @@ export const routes: Routes = [
             },
             {
                 path: 'branches',
-                component: Branches
+                component: Branches,
+                canActivate: [adminGuard]
             },
             {
                 path: 'branches/create',
-                component: CreateBranch
+                component: CreateBranch,
+                canActivate: [adminGuard]
             },
             {
                 path: 'branches/:id',
-                component: EditBranch
+                component: EditBranch,
+                canActivate: [adminGuard]
             }
         ]
     }
