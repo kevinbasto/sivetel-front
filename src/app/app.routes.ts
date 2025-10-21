@@ -11,6 +11,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Branches } from './pages/branches/branches';
 import { CreateBranch } from './pages/create-branch/create-branch';
 import { EditBranch } from './pages/edit-branch/edit-branch';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,7 @@ export const routes: Routes = [
     {
         path: '',
         component: ClientLayout,
+        canActivate: [authGuard],
         children: [
             {
                 path: "users",
