@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: "http://mdskardex.ddns.net"
+    apiUrl: "http://diazysolis.com/serviciosapi"
 }
