@@ -1,0 +1,17 @@
+services:
+  angular-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: angular-app
+    ports:
+      - "4200:4200"
+    restart: unless-stopped
+    environment:
+      - TZ=America/Merida
+    networks:
+      - angular-network
+
+networks:
+  angular-network:
+    driver: bridge
