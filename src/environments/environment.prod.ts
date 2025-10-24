@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: "http://diazysolis.com/serviciosapi"
+    apiUrl: "https://diazysolis.com/serviciosapi"
 }
