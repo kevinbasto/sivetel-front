@@ -1,5 +1,5 @@
 # Etapa 1: Construcción de la aplicación Angular
-FROM node:22.12-alpine AS build
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
@@ -12,8 +12,8 @@ RUN npm ci
 # Copiar el código fuente
 COPY . .
 
-# Construir la aplicación para producción
-RUN npm run build --configuration=production
+# Construir la aplicación para producción con base href
+RUN npm run build -- --base-href=/servicios/ --deploy-url=/servicios/
 
 # Etapa 2: Servir con Apache
 FROM httpd:2.4-alpine
@@ -26,7 +26,7 @@ RUN sed -i '/LoadModule rewrite_module/s/^#//g' /usr/local/apache2/conf/httpd.co
     sed -i 's/AllowOverride None/AllowOverride All/g' /usr/local/apache2/conf/httpd.conf
 
 # Copiar los archivos construidos desde la etapa de build
-COPY --from=build /app/dist/front/browser /usr/local/apache2/htdocs/
+COPY --from=build /app/dist/front /usr/local/apache2/htdocs/
 
 # Exponer el puerto 4200
 EXPOSE 4200
