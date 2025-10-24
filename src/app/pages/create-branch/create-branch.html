@@ -13,31 +13,24 @@
     <input type="text" matInput formControlName="city" />
   </mat-form-field>
   <div class="actions">
-    <button
-      mat-raised-button
-      color="primary"
-      type="button"
-      (click)="cancel()"
-    >
-    <span> Cancelar </span>
+    <button mat-raised-button color="primary" type="button" (click)="cancel()">
+      <span> Cancelar </span>
     </button>
-      <button
+    <button
       mat-raised-button
       color="primary"
       type="submit"
       [disabled]="uploading || form.invalid"
       class="submit-button"
     >
+      @if(!uploading){
       <mat-progress-spinner
-        *ngIf="isSubmitting"
         mode="indeterminate"
         diameter="20"
         color="accent"
         class="button-spinner"
       >
       </mat-progress-spinner>
-
-      @if(!uploading){
       <span>Crear Usuario</span>
       } @else {
       <span>Creando...</span>
