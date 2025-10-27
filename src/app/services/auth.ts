@@ -3,6 +3,21 @@ import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+interface ValidateSessionResponse {
+  valid: boolean;
+  requiresRefresh: boolean;
+  session?: string;
+  refreshToken?: string;
+  user?: {
+    id: number;
+    username: string;
+    isAdmin: boolean;
+    name: string;
+  };
+  expiresIn?: string;
+}
+
+
 export interface LoginDto {
   username: string;
   password: string;
@@ -10,6 +25,7 @@ export interface LoginDto {
 
 export interface AuthResponse {
   session: string;
+  refreshToken: string;
   isAdmin: boolean;
   name: string;
   expiresIn: string;
@@ -35,8 +51,9 @@ export class AuthService {
   login(credentials: LoginDto): Promise<AuthResponse> {
     return lastValueFrom(this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials))
       .then(res => {
-        const {session, expiresIn, isAdmin, name} = res;
+        const {session, expiresIn, isAdmin, name, refreshToken} = res;
         window.localStorage.setItem('auth_token', session);
+        window.localStorage.setItem('refresh_token', refreshToken);
         window.localStorage.setItem('expiresIn', expiresIn);
         let date = new Date();
         window.localStorage.setItem('expeditionDate', (date).toUTCString()),
@@ -99,5 +116,12 @@ export class AuthService {
    */
   private hasToken(): boolean {
     return !!localStorage.getItem(this.tokenKey);
+  }
+
+  validateSession(authToken: string, refreshToken: string): Observable<ValidateSessionResponse> {
+    return this.http.post<ValidateSessionResponse>(`${this.apiUrl}/validate-session`, {
+      accessToken: authToken,
+      refreshToken
+    });
   }
 }
