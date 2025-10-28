@@ -32,7 +32,6 @@ export const routes: Routes = [
             {
                 path: 'home',
                 component: Dashboard,
-                canActivate: [adminGuard]
             },
             {
                 path: 'users/create',

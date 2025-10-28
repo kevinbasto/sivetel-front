@@ -3,7 +3,7 @@ export const modulesRouting = [
         icon: 'home',
         name: 'inicio',
         route: 'home',
-        isAdmin: true,
+        isAdmin: false,
     },
     {
         icon: 'sim_card',

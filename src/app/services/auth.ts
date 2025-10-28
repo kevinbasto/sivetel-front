@@ -24,6 +24,7 @@ export interface LoginDto {
 }
 
 export interface AuthResponse {
+  id: number;
   session: string;
   refreshToken: string;
   isAdmin: boolean;
@@ -51,7 +52,7 @@ export class AuthService {
   login(credentials: LoginDto): Promise<AuthResponse> {
     return lastValueFrom(this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials))
       .then(res => {
-        const {session, expiresIn, isAdmin, name, refreshToken} = res;
+        const {session, expiresIn, isAdmin, name, refreshToken, id} = res;
         window.localStorage.setItem('auth_token', session);
         window.localStorage.setItem('refresh_token', refreshToken);
         window.localStorage.setItem('expiresIn', expiresIn);
@@ -60,6 +61,7 @@ export class AuthService {
         window.localStorage.setItem('expiration_date', (new Date(date.getTime() + 1 *60 *60 *1_000).toUTCString()));
         window.localStorage.setItem('isAdmin', isAdmin? 'true' : 'false');
         window.localStorage.setItem('name', name);
+        window.localStorage.setItem('id', id.toString());
         // this.setToken(res.session);
         this.loggedInSubject.next(true);
         return res;

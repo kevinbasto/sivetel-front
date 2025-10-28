@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +22,8 @@ import { AuthService } from '../../services/auth';
     MatProgressSpinnerModule,
     MatCardModule,
     MatSnackBarModule,
-    NgIf,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
@@ -30,6 +31,7 @@ import { AuthService } from '../../services/auth';
 export class Login {
   loginForm: FormGroup;
   isSubmitting = false;
+  hidePassword = true;
 
   constructor(
     private fb: FormBuilder, 
