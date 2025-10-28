@@ -56,7 +56,7 @@
       <th mat-header-cell *matHeaderCellDef>Estado</th>
       <td mat-cell *matCellDef="let element">
         <div class="{{element.status}}" >
-            {{ element.status }}
+            {{ element.status == 'accepted'? 'Aceptada' : 'Rechazada' }}
         </div>
       </td>
     </ng-container>
