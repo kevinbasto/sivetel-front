@@ -31,7 +31,7 @@ export class Dashboard implements OnInit {
   };
   generalSales : Array<any> = [];
   dataSource = [];
-  displayedColumns: string[] = ['transactionId', 'amount', 'date', 'type' ];
+  displayedColumns: string[] = ['transactionId', 'amount', 'date', 'type', 'status' ];
   firstDay ?: Date;
   lastDay ?: Date;
 

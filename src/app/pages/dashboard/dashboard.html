@@ -52,6 +52,15 @@
       <td mat-cell *matCellDef="let element">{{ element.date | date: 'hh:mm dd/MMyyyy' }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="{{element.status}}" >
+            {{ element.status }}
+        </div>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Tipo de venta</th>
       <td mat-cell *matCellDef="let element">
