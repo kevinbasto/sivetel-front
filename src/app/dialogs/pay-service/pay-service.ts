@@ -67,8 +67,9 @@ export class PayService {
   makeService(){
     this.processing = true;
     const { reference, amount } = this.rechargeForm.value;
+    const userId = window.localStorage.getItem('id');
     lastValueFrom(this.http.post<{message : string}>(`${environment.apiUrl}/sales/service`, { 
-      userId: 1, 
+      userId, 
       serviceId: this.service!.id,
       amount: amount,
       reference

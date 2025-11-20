@@ -73,7 +73,8 @@ export class PayPin implements OnInit{
   makeRecharge(){
     this.processing = true;
     const { number, confirmNumber, pin } = this.rechargeForm.value;
-    lastValueFrom(this.http.post<{message : string}>(`${environment.apiUrl}/sales/pin`, { userId: 1, phoneNumber: number, productId: pin }))
+    const userId = window.localStorage.getItem('id');
+    lastValueFrom(this.http.post<{message : string}>(`${environment.apiUrl}/sales/pin`, { userId, phoneNumber: number, productId: pin }))
     .then((res) => {
       this.snackbar.open('Recarga hecha con éxito', 'aceptar', { duration: 1000 });
       this.dialogRef.close();

@@ -66,7 +66,7 @@ export class PayRecharge {
   makeRecharge(){
     this.processing = true;
     const { number, confirmNumber, product } = this.rechargeForm.value;
-    const userId = window.localStorage.getItem('userId');
+    let userId = window.localStorage.getItem('id');
     lastValueFrom(this.http.post<{message : string}>(`${environment.apiUrl}/sales/recharge`, { userId, phoneNumber: number, productId: product }))
     .then((res) => {
       this.snackbar.open('Recarga hecha con éxito', 'aceptar', { duration: 1000 });
